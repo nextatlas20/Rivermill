@@ -12,6 +12,6 @@ def compute_signature(secret: str, body: bytes) -> str:
 
 def verify_signature(secret: str, body: bytes, header: str | None) -> bool:
     """Check a signature header against the payload."""
-    if not header:
+    if not header or not header.startswith("sha256="):
         return False
     return hmac.compare_digest(compute_signature(secret, body), header)
