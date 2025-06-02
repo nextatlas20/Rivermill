@@ -26,3 +26,10 @@ async def get_event(event_id: str):
 @router.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@router.post("/events/replay")
+async def replay_events(request: Request):
+    payload = await request.json()
+    event_ids = payload.get("event_ids", [])
+    return {"queued": len(event_ids), "event_ids": event_ids}
