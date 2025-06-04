@@ -8,7 +8,7 @@ MAX_ATTEMPTS = 12
 
 def backoff_delay(attempt: int) -> int:
     """Seconds to wait before the next attempt."""
-    return BASE_DELAY_SECONDS ** attempt
+    return min(BASE_DELAY_SECONDS ** attempt, 300)
 
 
 def next_attempt_at(now: datetime, attempt: int) -> datetime:
