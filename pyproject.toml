@@ -5,7 +5,7 @@ description = "Webhook ingestion and delivery service"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.111",
-    "httpx>=0.27",
+    "httpx>=0.27.2",
     "psycopg[binary]>=3.1",
 ]
 
