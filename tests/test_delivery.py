@@ -10,3 +10,9 @@ def test_signature_round_trip():
 def test_signature_rejects_tampering():
     header = compute_signature("s3cret", b"original")
     assert not verify_signature("s3cret", b"tampered", header)
+
+
+def test_duplicate_identifiers_are_distinct():
+    first = compute_signature("s3cret", b"a")
+    second = compute_signature("s3cret", b"b")
+    assert first != second
