@@ -9,6 +9,9 @@ from rivermill.storage.postgres import PostgresStore
 
 
 def cmd_replay(args) -> int:
+    if args.dry_run:
+        print(f"would replay {len(args.event_ids)} event(s)")
+        return 0
     store = PostgresStore(load_settings().database_url)
     for event_id in args.event_ids:
         store.schedule(event_id, None)
@@ -29,6 +32,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     replay = sub.add_parser("replay", help="replay stored events")
     replay.add_argument("event_ids", nargs="+")
+    replay.add_argument("--dry-run", action="store_true", help="print events without scheduling")
     replay.set_defaults(func=cmd_replay)
 
     serve = sub.add_parser("serve", help="run a delivery worker")
