@@ -12,12 +12,15 @@ class PostgresStore:
     def _connect(self):
         return psycopg.connect(self.dsn)
 
-    def insert_event(self, event_id: str, target_url: str, payload: dict) -> None:
-        with self._connect() as conn:
-            conn.execute(
-                "insert into events (id, target_url, payload) values (%s, %s, %s)",
-                (event_id, target_url, json.dumps(payload)),
-            )
+    def insert_events(self, events: list[tuple[str, str, dict]]) -> None:
+        rows = [(eid, url, json.dumps(payload)) for eid, url, payload in events]
+        for start in range(0, len(rows), 500):
+            chunk = rows[start:start + 500]
+            with self._connect() as conn:
+                conn.executemany(
+                    "insert into events (id, target_url, payload) values (%s, %s, %s)",
+                    chunk,
+                )
 
     def claim_pending(self, limit: int = 50) -> list[dict]:
         with self._connect() as conn:
