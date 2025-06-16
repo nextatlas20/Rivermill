@@ -14,3 +14,9 @@ event cannot occupy a worker slot indefinitely.
 
 Counters are exposed from `rivermill/metrics.py` and scraped from the
 `/metrics` endpoint.
+
+## Replay
+
+`POST /events/replay` accepts a JSON body of the form
+`{"event_ids": [...]}` and re-queues the listed events. Replays keep the
+original payload and signature.
