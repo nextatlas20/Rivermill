@@ -7,6 +7,7 @@ from rivermill.config import load_settings
 
 router = APIRouter()
 settings = load_settings()
+_seen_event_ids: set[str] = set()
 
 
 @router.post("/events")
@@ -15,6 +16,9 @@ async def ingest_event(request: Request, x_rivermill_signature: str = Header(def
     if not verify_signature(settings.webhook_secret, body, x_rivermill_signature):
         raise HTTPException(status_code=401, detail="invalid signature")
     event_id = request.headers.get("x-rivermill-event-id", "")
+    if event_id in _seen_event_ids:
+        raise HTTPException(status_code=409, detail="duplicate delivery identifier")
+    _seen_event_ids.add(event_id)
     return {"accepted": True, "event_id": event_id}
 
 
