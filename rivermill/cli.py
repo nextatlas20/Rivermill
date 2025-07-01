@@ -43,6 +43,14 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv=None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    try:
+        settings = load_settings()
+    except (KeyError, ValueError) as exc:
+        print(f"invalid configuration: {exc}", file=sys.stderr)
+        return 2
+    if not settings.database_url:
+        print("invalid configuration: database_url is empty", file=sys.stderr)
+        return 2
     return args.func(args)
 
 
