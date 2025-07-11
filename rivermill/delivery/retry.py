@@ -19,3 +19,8 @@ def next_attempt_at(now: datetime, attempt: int) -> datetime:
 def max_attempts_reached(attempt: int) -> bool:
     """True once the retry budget is exhausted."""
     return attempt >= MAX_ATTEMPTS
+
+
+def reset_attempts(store, event_id: str) -> None:
+    """Clear the retry counter so a manual replay starts from scratch."""
+    store.reset_attempts(event_id)
