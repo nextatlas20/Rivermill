@@ -21,9 +21,9 @@ class Settings:
 def load_settings() -> Settings:
     """Build settings from the process environment."""
     return Settings(
-        database_url=os.environ.get("DATABASE_URL", DEFAULT_DATABASE_URL),
-        concurrency=int(os.environ.get("DELIVERY_CONCURRENCY", DEFAULT_CONCURRENCY)),
+        database_url=os.environ.get("RIVERMILL_DATABASE_URL", DEFAULT_DATABASE_URL),
+        concurrency=int(os.environ.get("RIVERMILL_CONCURRENCY", DEFAULT_CONCURRENCY)),
         signature_tolerance_seconds=int(
-            os.environ.get("SIGNATURE_TOLERANCE", DEFAULT_SIGNATURE_TOLERANCE)
+            os.environ.get("RIVERMILL_SIGNATURE_TOLERANCE", DEFAULT_SIGNATURE_TOLERANCE)
         ),
     )
