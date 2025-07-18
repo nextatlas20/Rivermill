@@ -14,3 +14,7 @@ event cannot occupy a worker slot indefinitely.
 
 Counters are exposed from `rivermill/metrics.py` and scraped from the
 `/metrics` endpoint.
+
+## Delivery diagram
+
+    partner -> /events -> events table -> delivery worker -> customer endpoint
