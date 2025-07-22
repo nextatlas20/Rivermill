@@ -10,3 +10,10 @@ def test_backoff_grows():
 def test_next_attempt_is_in_the_future():
     now = datetime(2025, 4, 1, 12, 0, 0)
     assert next_attempt_at(now, 2) > now
+
+
+def test_window_lookup():
+    from rivermill.scheduler import window_for
+
+    assert window_for(7) == (5, 30)
+    assert window_for(500) is None
