@@ -1,6 +1,6 @@
 [project]
 name = "rivermill"
-version = "3.1.0"
+version = "3.2.0"
 description = "Webhook ingestion and delivery service"
 requires-python = ">=3.11"
 dependencies = [
